@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="20200210-01" author="CG">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="Student"></tableExists><!--学生表-->
+                <tableExists tableName="Worker"></tableExists><!--工作人员表-->
+                <tableExists tableName="Reimburse"></tableExists><!--报销表-->
+                <tableExists tableName="SWR"></tableExists><!--关联表-->
+            </not>
+        </preConditions>
+        <!--学生表-->
+        <createTable tableName="Student">
+            <column name="sid" type="integer(10)" encoding="utf8" remarks="学生id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="sName" type="varchar(10)" encoding="utf8" remarks="学生姓名">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sNumber" type="varchar(20)" encoding="utf8" remarks="学生学号">
+                <constraints nullable="false" unique="true"></constraints>
+            </column>
+            <column name="sAcademy" type="varchar(20)" encoding="utf8" remarks="学生学院">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sClass" type="varchar(20)" encoding="utf8" remarks="学生班级">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sIDFront" type="varchar(20)" encoding="utf8" remarks="学生身份证正面">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="sIDReverse" type="varchar(20)" encoding="utf8" remarks="学生身份证反面">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <!--工作人员表-->
+        <createTable tableName="Worker">
+            <column name="wid" type="integer(10)" encoding="utf8" remarks="工作人员id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="wName" type="varchar(10)" encoding="utf8" remarks="工作人员名字">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="wDuty" type="varchar(10)" encoding="utf8" remarks="工作人员职务">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="wIDFront" type="varchar(20)" encoding="utf8" remarks="工作人员身份证正面">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="wIDReverse" type="varchar(20)" encoding="utf8" remarks="工作人员身份证反面">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <!--报销表-->
+        <createTable tableName="Reimburse">
+            <column name="rid" type="integer(10)" encoding="utf8" remarks="报销id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="rHospital" type="varchar(20)" encoding="utf8" remarks="医院">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rHospitalInvoice" type="varchar(20)" encoding="utf8" remarks="病历">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rMoney" type="varchar(10)" encoding="utf8" remarks="花费">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rMoneyInvoice" type="varchar(20)" encoding="utf8" remarks="发票">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rProve" type="integer(2)" encoding="utf8" remarks="转诊证明（有/无）">
+                <constraints nullable="true"></constraints>
+            </column>
+            <column name="rProveInvoice" type="varchar(20)" encoding="utf8" remarks="转诊证明">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rTime" type="date" encoding="utf8" remarks="时间">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <!--关联表-->
+        <createTable tableName="SWR">
+            <column name="sid" type="integer(10)" encoding="utf8" remarks="学生id">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="wid" type="integer(10)" encoding="utf8" remarks="工作人员id">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="rid" type="integer(10)" encoding="utf8" remarks="报销表id">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="ReimburseMoney" type="double(10)" encoding="utf8" remarks="是否报销">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="20200211-01" author="CG">
+        <insert tableName="Student">
+            <column name="sid" autoIncrement="true"></column>
+            <column name="sName" value="CG"></column>
+            <column name="sNumber" value="201811671102"></column>
+            <column name="sAcademy" value="数学与计算机学院"></column>
+            <column name="sClass" value="信管1181"></column>
+            <column name="sIDFront" value="陈干IDFront.jpg"></column>
+            <column name="sIDReverse" value="陈干IDReverse.jpg"></column>
+        </insert>
+        <insert tableName="Worker">
+            <column name="wid" autoIncrement="true"></column>
+            <column name="wName" value="CG医生"></column>
+            <column name="wDuty" value="医生"></column>
+            <column name="wIDFront" value="陈干IDFront.jpg"></column>
+            <column name="wIDReverse" value="陈干IDFront.jpg"></column>
+        </insert>
+        <insert tableName="Reimburse">
+            <column name="rid" autoIncrement="true"></column>
+            <column name="rHospital" value="解放医院"></column>
+            <column name="rHospitalInvoice" value="解放医院.jpg"></column>
+            <column name="rMoney" value="100"></column>
+            <column name="rMoneyInvoice" value="MonetInvoice.jpg"></column>
+            <column name="rProve" value="1"></column>
+            <column name="rProveInvoice" value="ProveInvoice.jpg"></column>
+            <column name="rTime" value="2020-02-11"></column>
+        </insert>
+        <insert tableName="SWR">
+            <column name="sid" value="1"></column>
+            <column name="wid" value="1"></column>
+            <column name="rid" value="1"></column>
+            <column name="ReimburseMoney" value="0"></column>
+        </insert>
+    </changeSet>
+    <changeSet id="20200211-02" author="CG">
+        <createTable tableName="User" >
+            <column name="uid" encoding="utf8" type="integer(10)" remarks="用户id" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="account" encoding="utf8" type="varchar(20)" remarks="用户账号" >
+                <constraints unique="true" nullable="false"></constraints>
+            </column>
+            <column name="password" encoding="utf8" type="varchar(20)" remarks="用户密码" >
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="type" encoding="utf8" type="integer(2)" remarks="权限">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <insert tableName="User">
+            <column name="uid" autoIncrement="true"></column>
+            <column name="account" value="201811671102"></column>
+            <column name="password" value="201811671102"></column>
+            <column name="type" value="0"></column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

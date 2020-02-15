@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cs.mapper.ReimburseMapper">
+  <resultMap id="BaseResultMap" type="com.cs.pojo.Reimburse">
+    <constructor>
+      <idArg column="rid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="rHospital" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rHospitalInvoice" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rMoney" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rMoneyInvoice" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rProve" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="rProveInvoice" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rTime" javaType="java.util.Date" jdbcType="DATE" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rid, rHospital, rHospitalInvoice, rMoney, rMoneyInvoice, rProve, rProveInvoice, rTime
+  </sql>
+  <select id="selectByExample" parameterType="com.cs.pojo.ReimburseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reimburse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reimburse
+    where rid = #{rid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reimburse
+    where rid = #{rid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cs.pojo.ReimburseExample">
+    delete from reimburse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cs.pojo.Reimburse">
+    insert into reimburse (rid, rHospital, rHospitalInvoice, 
+      rMoney, rMoneyInvoice, rProve, 
+      rProveInvoice, rTime)
+    values (#{rid,jdbcType=INTEGER}, #{rhospital,jdbcType=VARCHAR}, #{rhospitalinvoice,jdbcType=VARCHAR}, 
+      #{rmoney,jdbcType=VARCHAR}, #{rmoneyinvoice,jdbcType=VARCHAR}, #{rprove,jdbcType=INTEGER}, 
+      #{rproveinvoice,jdbcType=VARCHAR}, #{rtime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cs.pojo.Reimburse">
+    insert into reimburse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="rhospital != null">
+        rHospital,
+      </if>
+      <if test="rhospitalinvoice != null">
+        rHospitalInvoice,
+      </if>
+      <if test="rmoney != null">
+        rMoney,
+      </if>
+      <if test="rmoneyinvoice != null">
+        rMoneyInvoice,
+      </if>
+      <if test="rprove != null">
+        rProve,
+      </if>
+      <if test="rproveinvoice != null">
+        rProveInvoice,
+      </if>
+      <if test="rtime != null">
+        rTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="rhospital != null">
+        #{rhospital,jdbcType=VARCHAR},
+      </if>
+      <if test="rhospitalinvoice != null">
+        #{rhospitalinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rmoney != null">
+        #{rmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="rmoneyinvoice != null">
+        #{rmoneyinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rprove != null">
+        #{rprove,jdbcType=INTEGER},
+      </if>
+      <if test="rproveinvoice != null">
+        #{rproveinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null">
+        #{rtime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cs.pojo.ReimburseExample" resultType="java.lang.Long">
+    select count(*) from reimburse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update reimburse
+    <set>
+      <if test="record.rid != null">
+        rid = #{record.rid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rhospital != null">
+        rHospital = #{record.rhospital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rhospitalinvoice != null">
+        rHospitalInvoice = #{record.rhospitalinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rmoney != null">
+        rMoney = #{record.rmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rmoneyinvoice != null">
+        rMoneyInvoice = #{record.rmoneyinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rprove != null">
+        rProve = #{record.rprove,jdbcType=INTEGER},
+      </if>
+      <if test="record.rproveinvoice != null">
+        rProveInvoice = #{record.rproveinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtime != null">
+        rTime = #{record.rtime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update reimburse
+    set rid = #{record.rid,jdbcType=INTEGER},
+      rHospital = #{record.rhospital,jdbcType=VARCHAR},
+      rHospitalInvoice = #{record.rhospitalinvoice,jdbcType=VARCHAR},
+      rMoney = #{record.rmoney,jdbcType=VARCHAR},
+      rMoneyInvoice = #{record.rmoneyinvoice,jdbcType=VARCHAR},
+      rProve = #{record.rprove,jdbcType=INTEGER},
+      rProveInvoice = #{record.rproveinvoice,jdbcType=VARCHAR},
+      rTime = #{record.rtime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cs.pojo.Reimburse">
+    update reimburse
+    <set>
+      <if test="rhospital != null">
+        rHospital = #{rhospital,jdbcType=VARCHAR},
+      </if>
+      <if test="rhospitalinvoice != null">
+        rHospitalInvoice = #{rhospitalinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rmoney != null">
+        rMoney = #{rmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="rmoneyinvoice != null">
+        rMoneyInvoice = #{rmoneyinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rprove != null">
+        rProve = #{rprove,jdbcType=INTEGER},
+      </if>
+      <if test="rproveinvoice != null">
+        rProveInvoice = #{rproveinvoice,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null">
+        rTime = #{rtime,jdbcType=DATE},
+      </if>
+    </set>
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cs.pojo.Reimburse">
+    update reimburse
+    set rHospital = #{rhospital,jdbcType=VARCHAR},
+      rHospitalInvoice = #{rhospitalinvoice,jdbcType=VARCHAR},
+      rMoney = #{rmoney,jdbcType=VARCHAR},
+      rMoneyInvoice = #{rmoneyinvoice,jdbcType=VARCHAR},
+      rProve = #{rprove,jdbcType=INTEGER},
+      rProveInvoice = #{rproveinvoice,jdbcType=VARCHAR},
+      rTime = #{rtime,jdbcType=DATE}
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+</mapper>

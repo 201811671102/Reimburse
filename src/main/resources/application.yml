@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/csReimburse
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 200MB #设置单个上传文件大小
+      max-request-size: 200MB #设置一次请求上传文件的总容量
+  redis:
+    port: 6379
+    database: 0
+    host: 127.0.0.1
+    password:
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: -1ms
+        max-idle: 1
+        min-idle: 0
+    timeout: 1000
+  liquibase:
+    contexts: dev #表示liquibase引用的脚本的上下文，要是项目中多个环境的话【比如，研发，测试，生产等】可以配置这个，否则请略过
+    change-log: 'classpath:liquibase/master.xml'
+    #不配置默认会查找 classpath:/db/changelog/db.changelog-master.yml
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: utf-8
+    mode: HTML5
+    cache: false
+    servlet:
+      content-type: text/html
+
+mybatis:
+  type-aliases-package: com.cs.pojo
+  mapper-locations: classpath:mappers/*.xml
+
+
+logging:
+  level:
+    com.cs.mapper: debug #指定类的日志级别
+  path: logs/ #指定日志生成路径
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" #控制台输出日志格式
+    file: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n "#文件输出日志格式
+
+

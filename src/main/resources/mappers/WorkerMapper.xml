@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cs.mapper.WorkerMapper">
+  <resultMap id="BaseResultMap" type="com.cs.pojo.Worker">
+    <constructor>
+      <idArg column="wid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="wName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wDuty" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wIDFront" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wIDReverse" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    wid, wName, wDuty, wIDFront, wIDReverse
+  </sql>
+  <select id="selectByExample" parameterType="com.cs.pojo.WorkerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from worker
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from worker
+    where wid = #{wid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from worker
+    where wid = #{wid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cs.pojo.WorkerExample">
+    delete from worker
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cs.pojo.Worker">
+    insert into worker (wid, wName, wDuty, 
+      wIDFront, wIDReverse)
+    values (#{wid,jdbcType=INTEGER}, #{wname,jdbcType=VARCHAR}, #{wduty,jdbcType=VARCHAR}, 
+      #{widfront,jdbcType=VARCHAR}, #{widreverse,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cs.pojo.Worker">
+    insert into worker
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        wid,
+      </if>
+      <if test="wname != null">
+        wName,
+      </if>
+      <if test="wduty != null">
+        wDuty,
+      </if>
+      <if test="widfront != null">
+        wIDFront,
+      </if>
+      <if test="widreverse != null">
+        wIDReverse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wid != null">
+        #{wid,jdbcType=INTEGER},
+      </if>
+      <if test="wname != null">
+        #{wname,jdbcType=VARCHAR},
+      </if>
+      <if test="wduty != null">
+        #{wduty,jdbcType=VARCHAR},
+      </if>
+      <if test="widfront != null">
+        #{widfront,jdbcType=VARCHAR},
+      </if>
+      <if test="widreverse != null">
+        #{widreverse,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cs.pojo.WorkerExample" resultType="java.lang.Long">
+    select count(*) from worker
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update worker
+    <set>
+      <if test="record.wid != null">
+        wid = #{record.wid,jdbcType=INTEGER},
+      </if>
+      <if test="record.wname != null">
+        wName = #{record.wname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wduty != null">
+        wDuty = #{record.wduty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.widfront != null">
+        wIDFront = #{record.widfront,jdbcType=VARCHAR},
+      </if>
+      <if test="record.widreverse != null">
+        wIDReverse = #{record.widreverse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update worker
+    set wid = #{record.wid,jdbcType=INTEGER},
+      wName = #{record.wname,jdbcType=VARCHAR},
+      wDuty = #{record.wduty,jdbcType=VARCHAR},
+      wIDFront = #{record.widfront,jdbcType=VARCHAR},
+      wIDReverse = #{record.widreverse,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cs.pojo.Worker">
+    update worker
+    <set>
+      <if test="wname != null">
+        wName = #{wname,jdbcType=VARCHAR},
+      </if>
+      <if test="wduty != null">
+        wDuty = #{wduty,jdbcType=VARCHAR},
+      </if>
+      <if test="widfront != null">
+        wIDFront = #{widfront,jdbcType=VARCHAR},
+      </if>
+      <if test="widreverse != null">
+        wIDReverse = #{widreverse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wid = #{wid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cs.pojo.Worker">
+    update worker
+    set wName = #{wname,jdbcType=VARCHAR},
+      wDuty = #{wduty,jdbcType=VARCHAR},
+      wIDFront = #{widfront,jdbcType=VARCHAR},
+      wIDReverse = #{widreverse,jdbcType=VARCHAR}
+    where wid = #{wid,jdbcType=INTEGER}
+  </update>
+</mapper>

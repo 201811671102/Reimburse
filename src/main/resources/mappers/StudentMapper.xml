@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cs.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.cs.pojo.Student">
+    <constructor>
+      <idArg column="sid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sNumber" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sAcademy" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sClass" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sIDFront" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sIDReverse" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sid, sName, sNumber, sAcademy, sClass, sIDFront, sIDReverse
+  </sql>
+  <select id="selectByExample" parameterType="com.cs.pojo.StudentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where sid = #{sid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cs.pojo.StudentExample">
+    delete from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cs.pojo.Student">
+    insert into student (sid, sName, sNumber, 
+      sAcademy, sClass, sIDFront, 
+      sIDReverse)
+    values (#{sid,jdbcType=INTEGER}, #{sname,jdbcType=VARCHAR}, #{snumber,jdbcType=VARCHAR}, 
+      #{sacademy,jdbcType=VARCHAR}, #{sclass,jdbcType=VARCHAR}, #{sidfront,jdbcType=VARCHAR}, 
+      #{sidreverse,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cs.pojo.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="sname != null">
+        sName,
+      </if>
+      <if test="snumber != null">
+        sNumber,
+      </if>
+      <if test="sacademy != null">
+        sAcademy,
+      </if>
+      <if test="sclass != null">
+        sClass,
+      </if>
+      <if test="sidfront != null">
+        sIDFront,
+      </if>
+      <if test="sidreverse != null">
+        sIDReverse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null">
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="snumber != null">
+        #{snumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sacademy != null">
+        #{sacademy,jdbcType=VARCHAR},
+      </if>
+      <if test="sclass != null">
+        #{sclass,jdbcType=VARCHAR},
+      </if>
+      <if test="sidfront != null">
+        #{sidfront,jdbcType=VARCHAR},
+      </if>
+      <if test="sidreverse != null">
+        #{sidreverse,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cs.pojo.StudentExample" resultType="java.lang.Long">
+    select count(*) from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update student
+    <set>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sname != null">
+        sName = #{record.sname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.snumber != null">
+        sNumber = #{record.snumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sacademy != null">
+        sAcademy = #{record.sacademy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sclass != null">
+        sClass = #{record.sclass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sidfront != null">
+        sIDFront = #{record.sidfront,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sidreverse != null">
+        sIDReverse = #{record.sidreverse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update student
+    set sid = #{record.sid,jdbcType=INTEGER},
+      sName = #{record.sname,jdbcType=VARCHAR},
+      sNumber = #{record.snumber,jdbcType=VARCHAR},
+      sAcademy = #{record.sacademy,jdbcType=VARCHAR},
+      sClass = #{record.sclass,jdbcType=VARCHAR},
+      sIDFront = #{record.sidfront,jdbcType=VARCHAR},
+      sIDReverse = #{record.sidreverse,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cs.pojo.Student">
+    update student
+    <set>
+      <if test="sname != null">
+        sName = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="snumber != null">
+        sNumber = #{snumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sacademy != null">
+        sAcademy = #{sacademy,jdbcType=VARCHAR},
+      </if>
+      <if test="sclass != null">
+        sClass = #{sclass,jdbcType=VARCHAR},
+      </if>
+      <if test="sidfront != null">
+        sIDFront = #{sidfront,jdbcType=VARCHAR},
+      </if>
+      <if test="sidreverse != null">
+        sIDReverse = #{sidreverse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cs.pojo.Student">
+    update student
+    set sName = #{sname,jdbcType=VARCHAR},
+      sNumber = #{snumber,jdbcType=VARCHAR},
+      sAcademy = #{sacademy,jdbcType=VARCHAR},
+      sClass = #{sclass,jdbcType=VARCHAR},
+      sIDFront = #{sidfront,jdbcType=VARCHAR},
+      sIDReverse = #{sidreverse,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>
